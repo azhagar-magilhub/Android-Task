@@ -1,26 +1,28 @@
 package com.az.interviewtask.data.local
 
 import android.content.Context
+import androidx.room.Database
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.az.interviewtask.data.local.dao.NewsDao
+import com.az.interviewtask.data.model.NewsModel
 
-object DatabaseBuilder {
+@Database(entities = arrayOf(NewsModel::class), version = 1, exportSchema = false)
+abstract class RoomSingleton : RoomDatabase(){
+    abstract fun newsDao():NewsDao
 
-    private var INSTANCE: AppDatabase? = null
-
-    fun getInstance(context: Context): AppDatabase {
-        if (INSTANCE == null) {
-            synchronized(AppDatabase::class) {
-                INSTANCE = buildRoomDB(context)
+    companion object{
+        private var INSTANCE: RoomSingleton? = null
+        fun getInstance(context:Context): RoomSingleton{
+            if (INSTANCE == null){
+                INSTANCE = Room.databaseBuilder(
+                    context,
+                    RoomSingleton::class.java,
+                    "interviewtask")
+                    .build()
             }
+
+            return INSTANCE as RoomSingleton
         }
-        return INSTANCE!!
     }
-
-    private fun buildRoomDB(context: Context) =
-        Room.databaseBuilder(
-            context.applicationContext,
-            AppDatabase::class.java,
-            "interviewtask"
-        ).build()
-
 }

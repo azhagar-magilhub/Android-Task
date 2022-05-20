@@ -1,22 +1,17 @@
 package com.az.interviewtask.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "news")
 data class NewsModel(
-    @SerializedName("id")
-    val id: Int = 0,
-    @SerializedName("title")
-    val title: String = "",
-    @SerializedName("by")
-    val by: String = "",
-    @SerializedName("score")
-    val score: String = "",
-    @SerializedName("text")
-    val text: String = "",
-    @SerializedName("time")
-    val time: String = "",
-    @SerializedName("type")
-    val type: String = "",
-    @SerializedName("url")
-    val url: String = "",
+    @PrimaryKey val id: Int,
+    val title: String?,
+    val by: String?,
+    val score: String?,
+    val text: String?,
+    val time: String?,
+    val type: String?,
+    val url: String?,
 )
